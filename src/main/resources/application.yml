@@ -1,0 +1,5 @@
+spring:
+  data:
+    mongodb:
+      url: mongodb+srv://user:user@cluster0.a1dx15u.mongodb.net/?retryWrites=true&w=majority
+      database: Aromed
