@@ -1,14 +1,20 @@
 package com.aromed.aromed.service;
 
+import com.aromed.aromed.Dto.MedicineListDto;
 import com.aromed.aromed.Dto.OrderMedicineDto;
 import com.aromed.aromed.Repository.OrderMedicineRepository;
 import com.aromed.aromed.Repository.OrderRepo;
 import com.aromed.aromed.model.OrderMedicine;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service @RequiredArgsConstructor @Transactional
@@ -51,4 +57,65 @@ public class OrderMedicineService {
             return null;
         }
     }
+
+    public List<OrderMedicine> getOrdersByRequestStatusAndPlacedStatus(boolean requestStatus, boolean placedStatus, boolean confirmedStatus) {
+        return orderMedicineRepository.findByRequestStatusAndPlacedStatusAndConfirmedStatus(requestStatus, placedStatus, confirmedStatus);
+    }
+
+
+
+    public void updateOrderMedicine(OrderMedicine orderMedicine) {
+        orderMedicineRepository.save(orderMedicine);
+    }
+
+//    Update the requestStatus and total when pharmacist submit the medicine
+    public OrderMedicine updateWhenSubmitTheMedicineByPharmacist(String orderId, int total, boolean requestStatus) {
+        try {
+            OrderMedicine orderMedicine = orderMedicineRepository.findById(orderId)
+                        .orElseThrow(() -> new RuntimeException("OrderMedicine not found with id " + orderId));
+            orderMedicine.setTotal(total);
+            orderMedicine.setRequestStatus(requestStatus);
+
+            return orderMedicineRepository.save(orderMedicine);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    //    Update the confirmingStatus when pharmacist submit the medicine
+    public OrderMedicine confirmingOrdersByPharmacist(String orderId, boolean confirmedStatus) {
+        try {
+            OrderMedicine orderMedicine = orderMedicineRepository.findById(orderId)
+                    .orElseThrow(() -> new RuntimeException("OrderMedicine not found with id " + orderId));
+            orderMedicine.setConfirmedStatus(confirmedStatus);
+
+            return orderMedicineRepository.save(orderMedicine);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+//     Update the placedStatus when customer placed the order
+    public OrderMedicine placingOrderByCustomer(String orderId, boolean placedStatus){
+        try {
+            OrderMedicine orderMedicine = orderMedicineRepository.findById(orderId)
+                    .orElseThrow(() -> new RuntimeException("OrderMedicine not found with id " + orderId));
+            orderMedicine.setPlacedStatus(placedStatus);
+
+            return orderMedicineRepository.save(orderMedicine);
+        } catch ( Exception e){
+            return null;
+        }
+    }
+
+//    Delete order
+public void deleteOrderMedicineById(String orderId) {
+    orderMedicineRepository.deleteById(orderId);
 }
+
+
+
+}
+
+
+

@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.UUID;
+
 @Document( collection = "charges")
 @Data
 @AllArgsConstructor
@@ -13,7 +15,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 public class Charges {
     @Id
-    private String chargeId;
+    private String chargeId = UUID.randomUUID().toString().split("-")[0] ;
+    private String chargeType;
     private String name;
-    private double fee;
+    private int fee;
 }

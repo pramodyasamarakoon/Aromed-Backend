@@ -4,5 +4,11 @@ import com.aromed.aromed.model.Charges;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 public interface ChargesRepository extends MongoRepository<Charges, String > {
+    Charges findChargesByChargeId(String chargeId);
+
+    Charges findByChargeId(String chargeId);
+
+    Charges deleteChargesByChargeId(String chargeId);
+
 
 }
