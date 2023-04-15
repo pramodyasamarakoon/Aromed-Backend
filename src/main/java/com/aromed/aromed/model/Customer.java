@@ -27,4 +27,5 @@ public class Customer {
     private String message;
     private boolean videoConference;
     private String pName;
+    private String appointmentTime;
 }

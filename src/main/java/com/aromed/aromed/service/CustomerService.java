@@ -26,6 +26,15 @@ public class CustomerService {
         int appointmentNumber = repository.countByDateAndDoctor(date, doctor) + 1;
         customer.setAppointmentNumber(appointmentNumber);
 
+        // Set appointmentTime based on appointmentNumber
+        String appointmentTime = "16:00";
+        if (appointmentNumber > 1) {
+            int hour = 16 + (appointmentNumber - 1) / 6;
+            int minute = (appointmentNumber - 1) % 6 * 10;
+            appointmentTime = String.format("%02d:%02d", hour, minute);
+        }
+        customer.setAppointmentTime(appointmentTime);
+
         return repository.save(customer);
     }
 
