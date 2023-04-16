@@ -84,6 +84,17 @@ public class ChargesController {
         }
     }
 
+    @GetMapping("/getChargesByChargeType")
+    public ResponseEntity<List<Charges>> getChargesByChargeType(@RequestParam String chargeType) {
+        try {
+            List<Charges> charges = repository.findChargesByChargeType(chargeType);
+            return new ResponseEntity<>(charges, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
 
 
 }
