@@ -29,13 +29,13 @@ public class UserController {
         }
     }
 
-    @GetMapping("/{users}")
-    public Users getUsers(@PathVariable String userId){
+    @GetMapping("/getUser")
+    public Users getUsers(@RequestParam String userId){
         return service.getUserByUserId(userId);
     }
 
-    @GetMapping("/signIn/{userName}")
-    public Users getUserByUserName(@PathVariable String userName){
+    @GetMapping("/signIn")
+    public Users getUserByUserName(@RequestParam String userName){
         return service.getUserByUserName(userName);
     }
 
